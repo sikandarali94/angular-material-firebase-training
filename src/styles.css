@@ -4,4 +4,4 @@
 a warning color in its core. Angular Material ships with 4 themes which we can find in:
 node_modules/@angular/material/prebuilt-themes/.
  */
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
