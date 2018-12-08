@@ -1,0 +1,16 @@
+<section>
+  <form>
+    <!--
+    This is a component used to wrap other Angular Material components so it can apply styles to text fields, 'such
+    as the underline, floating label, and hint messages'. We need to import MatFormFieldModule in our module before we
+    can apply the component <mat-form-field> in our template. Also, we need to import MatInputModule in our module
+    because we used the matInput directive here.
+    -->
+    <mat-form-field>
+      <input type="email" matInput placeholder="Your email">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Your password">
+    </mat-form-field>
+  </form>
+</section>
