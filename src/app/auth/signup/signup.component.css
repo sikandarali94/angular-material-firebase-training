@@ -1,0 +1,41 @@
+#container {
+    display:flex; /* To initiate flexbox, we set the property of the parent container to flex */
+    width:100%;
+    /* By default, flexbox arranges the child elements as a row, however, we can change that to column arrangement
+    using flex-direction, as shown below.
+     */
+    flex-direction: row;
+    /* justify-content: center aligns elements to the center of either the horizontal axis if the direction is row
+    and vertical axis if the direction is column. If the main axis is vertical then align-item property would align
+    items horizontally rather than vertically.
+     */
+    justify-content: flex-start;
+    align-items:center;
+    height: 700px;
+    border: 1px solid black;
+}
+
+.child {
+    width:200px;
+    height: 200px;
+    /* Not only does each child decrease in width when the viewport is shrinked, but each child increases in width
+    when the viewport is expanded.
+     */
+    /*flex:1;*/
+}
+
+#child1 {
+    background-color: red;
+    /* If the rest of the child has a flex value of 1 and this has 2, this child will take up twice the width compared
+    with the other child elements.
+     */
+    /*flex:2;*/
+}
+
+#child2 {
+    background-color: green;
+}
+
+#child3 {
+    background-color: blue;
+}
