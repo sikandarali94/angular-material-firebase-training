@@ -1,5 +1,10 @@
-<section>
-  <form>
+<section class="signup-form">
+  <!--
+  fxLayout directive sets the flex direction. If we don't provide a value, flex direction of row would be used.
+  fxLayoutAlign sets the alignment on the main axis. To set the alignment on the cross axis, we provide two
+  values like: "center center".
+  -->
+  <form fxLayout="column" fxLayoutAlign="center center">
     <!--
     This is a component used to wrap other Angular Material components so it can apply styles to text fields, 'such
     as the underline, floating label, and hint messages'. We need to import MatFormFieldModule in our module before we
@@ -13,9 +18,4 @@
       <input type="password" matInput placeholder="Your password">
     </mat-form-field>
   </form>
-</section>
-<section id="container">
-  <div id="child1" class="child"></div>
-  <div id="child2" class="child"></div>
-  <div id="child3" class="child"></div>
 </section>
