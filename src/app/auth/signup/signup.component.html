@@ -4,7 +4,10 @@
   fxLayoutAlign sets the alignment on the main axis. To set the alignment on the cross axis, we provide two
   values like: "center center".
   -->
-  <form fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <!--
+  fxLayoutGap of Angular Flexbox is used to set the spacing between elements.
+  -->
+  <form fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)" fxLayoutGap="10px">
     <!--
     This is a component used to wrap other Angular Material components so it can apply styles to text fields, 'such
     as the underline, floating label, and hint messages'. We need to import MatFormFieldModule in our module before we
@@ -96,6 +99,6 @@
     We can also change the theme of the checkbox by setting the color property, as shown below.
     -->
     <mat-checkbox labelPosition="before" ngModel name="agree" required color="primary">Agree to Terms and Conditions.</mat-checkbox>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Submit</button>
   </form>
 </section>
