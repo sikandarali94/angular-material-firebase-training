@@ -66,7 +66,11 @@
       Angular Material on which input we want to display the date chosen by the user on the date picker. We use
       property binding on the local reference (in our case picker) of the <mat-datepicker> directive, as shown below.
       -->
-      <input matInput placeholder="Your birthdate" [matDatepicker]="picker">
+      <!--
+      To the max property, if we provide a date, the datepicker will notice the date and take it into account. In the
+      datepicker it will not allow us to pick a date after the maximum date we have set.
+      -->
+      <input matInput placeholder="Your birthdate" [matDatepicker]="picker" [max]="maxDate">
       <!--
       We have to import the Angular material datepicker module before we can implement the directives in our template.
       -->
