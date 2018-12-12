@@ -15,10 +15,50 @@
     <mat-form-field> works with both the template driven approach and the reactive driven approach.
     -->
     <mat-form-field>
-      <input type="email" matInput placeholder="Your email" ngModel name="email">
+      <!--
+      email is an Angular directive.
+      -->
+      <input
+        type="email"
+        matInput
+        placeholder="Your email"
+        ngModel
+        name="email"
+        email
+        required
+        #emailInput="ngModel">
+      <!--
+      We don't have to import anything in our module when it also comes to <mat-error> directive, because it is part of
+      <mat-form-field> directive. The error message in the <mat-error> directive appear when the whole form control
+      has been provided incorrect data. To control this, we can use the ngIf directive.
+      -->
+      <mat-error *ngIf="emailInput.hasError('required')">Field must not be empty.</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <input type="password" matInput placeholder="Your password" ngModel name="password">
+    <!--
+    We can also use hintLabel directive instead of <mat-hint> directive; whichever we prefer. We can also combine
+    these two methods. If we do, we should define the align directive in <mat-hint>
+    -->
+    <mat-form-field hintLabel="Should be at least 6 characters long.">
+      <input
+        type="password"
+        matInput
+        placeholder="Your password"
+        ngModel
+        name="password"
+        required
+        minlength="6"
+        #pwInput="ngModel">
+      <!--
+      We do not need to import anything in our module when it comes to <mat-hint> directive, because it is part of
+      <mat-form-field> directive.
+      Here we are telling the user how many characters he has entered.
+      -->
+      <!--
+      Important to remember: errors override hints.
+      -->
+      <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
+      <mat-error>Has to be at least 6 characters long.</mat-error>
     </mat-form-field>
     <button type="submit" mat-raised-button color="primary">Submit</button>
   </form>
