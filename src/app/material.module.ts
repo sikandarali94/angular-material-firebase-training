@@ -10,7 +10,8 @@ import {
   /* We also need to provide a date adapter. We can either use MatNativeDateModule which supports US formatted date or MatMomentDateModule
   which supports international date formats (Moment.js is needed as a dependency for this date adapter).
    */
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 @NgModule({
@@ -20,7 +21,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   exports: [
     MatButtonModule,
@@ -28,7 +30,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule {}

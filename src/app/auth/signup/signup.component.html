@@ -70,7 +70,7 @@
       To the max property, if we provide a date, the datepicker will notice the date and take it into account. In the
       datepicker it will not allow us to pick a date after the maximum date we have set.
       -->
-      <input matInput placeholder="Your birthdate" [matDatepicker]="picker" [max]="maxDate">
+      <input matInput placeholder="Your birthdate" [matDatepicker]="picker" [max]="maxDate" ngModel name="birthdate" required>
       <!--
       We have to import the Angular material datepicker module before we can implement the directives in our template.
       -->
@@ -88,6 +88,14 @@
       -->
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <!--
+    To use the <mat-checkbox> directive, we need to import the module that contains this directive in our app. Also,
+    <mat-checkbox> directive is not wrapped by the <mat-form-field> directive, because it is no input.
+    By default, the label/text is positioned after the checkbox. To change the positioning, we can set the labelPosition
+    property to before which places the label before the checkbox, as shown below.
+    We can also change the theme of the checkbox by setting the color property, as shown below.
+    -->
+    <mat-checkbox labelPosition="before" ngModel name="agree" required color="primary">Agree to Terms and Conditions.</mat-checkbox>
     <button type="submit" mat-raised-button color="primary">Submit</button>
   </form>
 </section>
