@@ -60,6 +60,30 @@
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
       <mat-error>Has to be at least 6 characters long.</mat-error>
     </mat-form-field>
+    <mat-form-field>
+      <!--
+      matDatePicker is a directive of the MatDatepickerModule and not the input. This directive is where we tell
+      Angular Material on which input we want to display the date chosen by the user on the date picker. We use
+      property binding on the local reference (in our case picker) of the <mat-datepicker> directive, as shown below.
+      -->
+      <input matInput placeholder="Your birthdate" [matDatepicker]="picker">
+      <!--
+      We have to import the Angular material datepicker module before we can implement the directives in our template.
+      -->
+      <!--
+      <mat-datepicker-toggle> implements the button on the form input that toggles the datepicker.
+      We pass to [for] the local reference of the datepicker, as shown below.
+      -->
+      <!--
+      We use matSuffix to position the datepicker toggle button to the end of the form input.
+      -->
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <!--
+      <mat-datepicker> implements the actual datepicker that pops up. It must be connected to <mat-datepicker-toggle>
+      and <input> through local reference, as shown above and below.
+      -->
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
     <button type="submit" mat-raised-button color="primary">Submit</button>
   </form>
 </section>
