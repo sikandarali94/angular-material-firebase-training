@@ -15,7 +15,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 /* @angular/flex-layout abstracts the CSS for implementing flexbox and instead we use directives that apply CSS flexbox.
  */
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import {FormsModule} from '@angular/forms';
     AppRoutingModule,
     MaterialModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
