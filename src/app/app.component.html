@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<!--
+If we want to implement a pattern where we have both the toolbar at the top but then also a toggle side nav then we
+will actually need to include the toolbar into the <mat-sidenav-container>.
+-->
+<mat-sidenav-container>
+  <!--
+  <mat-sidenav> is where we place our side nav. Ny default, it is hidden and needs to be toggled on the UI. To change
+  this, we set opened property to true, like this: [opened]="openSidenav".
+  -->
+  <mat-sidenav #sidenav role="navigation">
+    <p>I'm the sidenav!</p>
+  </mat-sidenav>
+  <!--
+  <mat-sidenav-content> is where our main content goes that is placed next to the sidenav.
+  -->
+  <mat-sidenav-content>
+    <!--
+    The sidenav directive has a toggle method which we can trigger with a button using a local reference on the side
+    nav.
+    -->
+    <!--<button (click)="sidenav.toggle()">Show Sidenav</button>-->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
