@@ -1,102 +1,14 @@
-<!--
-If we want to implement a pattern where we have both the toolbar at the top but then also a toggle side nav then we
-will actually need to include the toolbar into the <mat-sidenav-container>.
--->
-<!--
-We can place <mat-toolbar> in any place and in any container we wish. The contents of the toolbar are distributed
-internally by Angular Flexbox. It also has a color property.
--->
 <mat-sidenav-container>
   <!--
-  <mat-sidenav> is where we place our side nav. Ny default, it is hidden and needs to be toggled on the UI. To change
-  this, we set opened property to true, like this: [opened]="openSidenav".
+  The issue with #sidenav now is that it's a local reference that only sits locally. The elements of the newly created
+  components rely on having access to the sidenav. Therefore we need to be able to supply those components with a
+  reference to this sidenav.
   -->
   <mat-sidenav #sidenav role="navigation">
-    <!--
-    To use <mat-nav-list> directive we need to first import the module in our app that includes this directive.
-    -->
-    <mat-nav-list>
-      <!--
-      To register a link inside a material navigation list we use mat-list-item, as shown below.
-      -->
-      <!--
-      We want to close the side nav whenever a person selects an item. We can accomplish this using a click listener
-      and executing the sidenav.close() method, as shown below.
-      -->
-      <a mat-list-item routerLink="/signup" (click)="sidenav.close()">
-        <!--
-        This is how we embed an icon inside a list item before the list item caption.
-        -->
-        <mat-icon>face</mat-icon>
-        <span class="nav-caption">Signup</span>
-      </a>
-      <a mat-list-item routerLink="/login" (click)="sidenav.close()">
-        <mat-icon>lock_open</mat-icon>
-        <span class="nav-caption">Login</span>
-      </a>
-      <a mat-list-item routerLink="/training" (click)="sidenav.close()">
-        <mat-icon>directions_run</mat-icon>
-        <span class="nav-caption">Training</span>
-      </a>
-      <!--
-      If we have a button in our list item rather than a link, we should embed it inside the <mat-list-item> directive
-      as shown below.
-      -->
-      <mat-list-item>
-        <button mat-icon-button (click)="sidenav.close()">
-          <mat-icon>eject</mat-icon>
-          <span class="nav-caption">Logout</span>
-        </button>
-      </mat-list-item>
-    </mat-nav-list>
+    <app-sidenav-list (closeSidenav)="sidenav.close()"></app-sidenav-list>
   </mat-sidenav>
-  <!--
-  <mat-sidenav-content> is where our main content goes that is placed next to the sidenav.
-  -->
   <mat-sidenav-content>
-    <!--
-    If we want to have our side nav go over the toolbar, we have to place the tool bar inside <mat-sidenav-content>.
-    -->
-    <mat-toolbar color="primary">
-      <!--
-      .gt-xs annotation means on fxHide that hide this element on screens greater than the extra small screen.
-      -->
-      <div fxHide.gt-xs>
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-      <div><a routerLink="/">LOGO</a></div>
-      <!--
-      fxFlex makes an element take the available remaining width in the parent element.
-      fxLayout directive on the container sets the flex container.
-      -->
-      <!--
-      Another alternative to setting the links to the right of the toolbar is to create a div between the logo and
-      the links and assigning it fxFlex. fxFlex would take the remaining available space on the parent element
-      between the logo and the links, thus aligning the links on the right side of the toolbar.
-      <div fxFlex></div>
-      -->
-      <!--
-      fxHide hides an element. We can annotate fxHide with like xs(extra small) to make an element hide only on extra
-      small screens. For the full list of annotations we can visit:
-      https://github.com/angular/flex-layout/wiki/Responsive-API
-      -->
-      <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
-        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
-          <li><a routerLink="/signup">Signup</a></li>
-          <li><a routerLink="/login">Login</a></li>
-          <li><a routerLink="/training">Training</a></li>
-          <li><a>Logout</a></li>
-        </ul>
-      </div>
-    </mat-toolbar>
-    <!--
-    The sidenav directive has a toggle method which we can trigger with a button using a local reference on the side
-    nav.
-    -->
-    <!--<button (click)="sidenav.toggle()">Show Sidenav</button>-->
-    <!-- <main> is added here just for semantic reasons -->
+    <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
     <main>
       <router-outlet></router-outlet>
     </main>
