@@ -12,7 +12,43 @@ internally by Angular Flexbox. It also has a color property.
   this, we set opened property to true, like this: [opened]="openSidenav".
   -->
   <mat-sidenav #sidenav role="navigation">
-    <p>I'm the sidenav!</p>
+    <!--
+    To use <mat-nav-list> directive we need to first import the module in our app that includes this directive.
+    -->
+    <mat-nav-list>
+      <!--
+      To register a link inside a material navigation list we use mat-list-item, as shown below.
+      -->
+      <!--
+      We want to close the side nav whenever a person selects an item. We can accomplish this using a click listener
+      and executing the sidenav.close() method, as shown below.
+      -->
+      <a mat-list-item routerLink="/signup" (click)="sidenav.close()">
+        <!--
+        This is how we embed an icon inside a list item before the list item caption.
+        -->
+        <mat-icon>face</mat-icon>
+        <span class="nav-caption">Signup</span>
+      </a>
+      <a mat-list-item routerLink="/login" (click)="sidenav.close()">
+        <mat-icon>lock_open</mat-icon>
+        <span class="nav-caption">Login</span>
+      </a>
+      <a mat-list-item routerLink="/training" (click)="sidenav.close()">
+        <mat-icon>directions_run</mat-icon>
+        <span class="nav-caption">Training</span>
+      </a>
+      <!--
+      If we have a button in our list item rather than a link, we should embed it inside the <mat-list-item> directive
+      as shown below.
+      -->
+      <mat-list-item>
+        <button mat-icon-button (click)="sidenav.close()">
+          <mat-icon>eject</mat-icon>
+          <span class="nav-caption">Logout</span>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
   </mat-sidenav>
   <!--
   <mat-sidenav-content> is where our main content goes that is placed next to the sidenav.
@@ -51,6 +87,7 @@ internally by Angular Flexbox. It also has a color property.
           <li><a routerLink="/signup">Signup</a></li>
           <li><a routerLink="/login">Login</a></li>
           <li><a routerLink="/training">Training</a></li>
+          <li><a>Logout</a></li>
         </ul>
       </div>
     </mat-toolbar>
