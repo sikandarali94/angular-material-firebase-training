@@ -22,7 +22,10 @@ internally by Angular Flexbox. It also has a color property.
     If we want to have our side nav go over the toolbar, we have to place the tool bar inside <mat-sidenav-content>.
     -->
     <mat-toolbar color="primary">
-      <div>
+      <!--
+      .gt-xs annotation means on fxHide that hide this element on screens greater than the extra small screen.
+      -->
+      <div fxHide.gt-xs>
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
@@ -38,7 +41,12 @@ internally by Angular Flexbox. It also has a color property.
       between the logo and the links, thus aligning the links on the right side of the toolbar.
       <div fxFlex></div>
       -->
-      <div fxFlex fxLayout fxLayoutAlign="flex-end">
+      <!--
+      fxHide hides an element. We can annotate fxHide with like xs(extra small) to make an element hide only on extra
+      small screens. For the full list of annotations we can visit:
+      https://github.com/angular/flex-layout/wiki/Responsive-API
+      -->
+      <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="10px" class="navigation-items">
           <li><a routerLink="/signup">Signup</a></li>
           <li><a routerLink="/login">Login</a></li>
