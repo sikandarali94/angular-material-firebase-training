@@ -22,12 +22,28 @@ internally by Angular Flexbox. It also has a color property.
     If we want to have our side nav go over the toolbar, we have to place the tool bar inside <mat-sidenav-content>.
     -->
     <mat-toolbar color="primary">
-      <div><button (click)="sidenav.toggle()">Toggle Sidenav</button></div>
-      <div>LOGO</div>
       <div>
-        <a routerLink="/signup">Signup</a>
-        <a routerLink="/login">Login</a>
-        <a routerLink="/training">Training</a>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      <div><a routerLink="/">LOGO</a></div>
+      <!--
+      fxFlex makes an element take the available remaining width in the parent element.
+      fxLayout directive on the container sets the flex container.
+      -->
+      <!--
+      Another alternative to setting the links to the right of the toolbar is to create a div between the logo and
+      the links and assigning it fxFlex. fxFlex would take the remaining available space on the parent element
+      between the logo and the links, thus aligning the links on the right side of the toolbar.
+      <div fxFlex></div>
+      -->
+      <div fxFlex fxLayout fxLayoutAlign="flex-end">
+        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+          <li><a routerLink="/signup">Signup</a></li>
+          <li><a routerLink="/login">Login</a></li>
+          <li><a routerLink="/training">Training</a></li>
+        </ul>
       </div>
     </mat-toolbar>
     <!--

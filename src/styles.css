@@ -9,6 +9,7 @@ node_modules/@angular/material/prebuilt-themes/.
 */
 html, body {
     font-family: 'Roboto', sans-serif;
+    height: 100%;
 }
 
 body {
