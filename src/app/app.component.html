@@ -2,6 +2,10 @@
 If we want to implement a pattern where we have both the toolbar at the top but then also a toggle side nav then we
 will actually need to include the toolbar into the <mat-sidenav-container>.
 -->
+<!--
+We can place <mat-toolbar> in any place and in any container we wish. The contents of the toolbar are distributed
+internally by Angular Flexbox. It also has a color property.
+-->
 <mat-sidenav-container>
   <!--
   <mat-sidenav> is where we place our side nav. Ny default, it is hidden and needs to be toggled on the UI. To change
@@ -15,10 +19,25 @@ will actually need to include the toolbar into the <mat-sidenav-container>.
   -->
   <mat-sidenav-content>
     <!--
+    If we want to have our side nav go over the toolbar, we have to place the tool bar inside <mat-sidenav-content>.
+    -->
+    <mat-toolbar color="primary">
+      <div><button (click)="sidenav.toggle()">Toggle Sidenav</button></div>
+      <div>LOGO</div>
+      <div>
+        <a routerLink="/signup">Signup</a>
+        <a routerLink="/login">Login</a>
+        <a routerLink="/training">Training</a>
+      </div>
+    </mat-toolbar>
+    <!--
     The sidenav directive has a toggle method which we can trigger with a button using a local reference on the side
     nav.
     -->
     <!--<button (click)="sidenav.toggle()">Show Sidenav</button>-->
-    <router-outlet></router-outlet>
+    <!-- <main> is added here just for semantic reasons -->
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
