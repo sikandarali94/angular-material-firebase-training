@@ -1,3 +1,17 @@
-<p>
-  new-training works!
-</p>
+<!--
+We can set the width of the card using the fxFlex property and assigning a width to the property e.g. fxFlex="400px"
+-->
+<section class="new-training" fxLayout fxLayoutAlign="center">
+  <mat-card fxFlex="400px">
+    <mat-card-title>Time to start a workout!</mat-card-title>
+    <mat-card-content>
+      Select type of training
+    </mat-card-content>
+    <!--
+    <mat-card-actions> is the container where we place buttons at the bottom of the card.
+    -->
+    <mat-card-actions>
+      <button type="submit" mat-button>Start</button>
+    </mat-card-actions>
+  </mat-card>
+</section>
