@@ -35,7 +35,24 @@ export class CurrentTrainingComponent implements OnInit {
     clearInterval(this.timer);
     /* To trigger a dialog box, we use the open() method. We pass our dialog box component as an argument into this method.
      */
-    this.dialog.open(StopTrainingComponent);
+    /* To pass the data to the dialog box from the component that we opened it, we pass an object as a second argument that has a data
+    key in which we pass the appropriate data that we want to pass to the dialog box.
+     */
+    /* To get data from the dialog box back to this component, we store it in a constant as shown below and then we use the afterClosed
+    method on it.
+     */
+    const dialogRef = this.dialog.open(StopTrainingComponent, {
+      data: {
+        progress: this.progress
+      }
+    });
+
+    /* afterClosed() returns an observable that we can subscribe to to get data from the dialog box. In this case we decided to store the
+    data we get back into the result variable, as shown below.
+     */
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
 }
