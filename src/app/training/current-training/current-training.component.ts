@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 /* We must import MatDialog from '@angular/material' before we can use it in our TypeScript file. However, before we do this, we also still
 need to import the module that contains MatDialog into our app.
  */
@@ -13,6 +13,7 @@ import { StopTrainingComponent } from './stop-training.component';
   styleUrls: ['./current-training.component.css']
 })
 export class CurrentTrainingComponent implements OnInit {
+  @Output() trainingExit = new EventEmitter();
   progress = 0;
   timer: number;
 
@@ -21,11 +22,13 @@ export class CurrentTrainingComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.startOrResumeTimer();
+  }
+
+  startOrResumeTimer() {
     this.timer = setInterval(() => {
       this.progress += 5;
       if (this.progress >= 100) {
-        /* Timer will stop when we progress has a value of 100 or above.
-         */
         clearInterval(this.timer);
       }
     }, 1000);
@@ -51,7 +54,14 @@ export class CurrentTrainingComponent implements OnInit {
     data we get back into the result variable, as shown below.
      */
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      /* If the result variable is true, we should go back to the previous page. If the result is false then we want to resume the exercise
+      timer.
+       */
+      if (result) {
+        this.trainingExit.emit();
+      } else {
+        this.startOrResumeTimer();
+      }
     });
   }
 
