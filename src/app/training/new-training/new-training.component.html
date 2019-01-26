@@ -14,17 +14,8 @@ We can set the width of the card using the fxFlex property and assigning a width
       -->
       <mat-form-field>
         <mat-select placeholder="Favorite Food">
-          <mat-option value="crunches">
-            Crunches
-          </mat-option>
-          <mat-option value="touch-toes">
-            Touch Toes
-          </mat-option>
-          <mat-option value="side-lunges">
-            Side Lunges
-          </mat-option>
-          <mat-option value="burpees">
-            Burpees
+          <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
+            {{exercise.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

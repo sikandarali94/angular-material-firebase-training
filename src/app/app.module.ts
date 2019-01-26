@@ -20,6 +20,7 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import {StopTrainingComponent} from './training/current-training/stop-training.component';
 import {AuthService} from './auth/auth.service';
+import {TrainingService} from './training/training.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {AuthService} from './auth/auth.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],
   /* In entryComponents, is where we add all components that are neither instantiated by using their selector in our template nor by
   routing. In other words, Angular has no way of finding out whether this component is going to get used and when this is going to be the
