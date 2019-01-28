@@ -8,7 +8,7 @@ import {Exercise} from '../exercise.model';
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit {
-  availableExercises: Exercise[];
+  availableExercises: Exercise[] = [];
   @Output() trainingStart = new EventEmitter<void>();
 
   constructor(private trainingService: TrainingService) {}
