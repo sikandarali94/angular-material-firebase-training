@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 /* We must import MatDialog from '@angular/material' before we can use it in our TypeScript file. However, before we do this, we also still
 need to import the module that contains MatDialog into our app.
  */
@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 /* This is the component that contains our dialog box.
  */
 import { StopTrainingComponent } from './stop-training.component';
+import {TrainingService} from '../training.service';
 
 @Component({
   selector: 'app-current-training',
@@ -13,13 +14,12 @@ import { StopTrainingComponent } from './stop-training.component';
   styleUrls: ['./current-training.component.css']
 })
 export class CurrentTrainingComponent implements OnInit {
-  @Output() trainingExit = new EventEmitter();
   progress = 0;
   timer: number;
 
   /* We inject MatDialog into the constructor method, as shown below.
    */
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private trainingService: TrainingService) { }
 
   ngOnInit() {
     this.startOrResumeTimer();
@@ -58,7 +58,7 @@ export class CurrentTrainingComponent implements OnInit {
       timer.
        */
       if (result) {
-        this.trainingExit.emit();
+        this.trainingService.trainingStarted.next(false);
       } else {
         this.startOrResumeTimer();
       }

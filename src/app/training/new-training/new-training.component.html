@@ -13,7 +13,7 @@ We can set the width of the card using the fxFlex property and assigning a width
       The <mat-select> directive must be wrapped in <mat-form-field>. <mat-select> is valid form control.
       -->
       <mat-form-field>
-        <mat-select placeholder="Favorite Food">
+        <mat-select placeholder="Select Exercise">
           <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
             {{exercise.name}}
           </mat-option>
