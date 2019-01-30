@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 /* This is the component that contains our dialog box.
  */
 import { StopTrainingComponent } from './stop-training.component';
+import {TrainingService} from '../training.service';
 
 @Component({
   selector: 'app-current-training',
@@ -19,19 +20,24 @@ export class CurrentTrainingComponent implements OnInit {
 
   /* We inject MatDialog into the constructor method, as shown below.
    */
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private trainingService: TrainingService) { }
 
   ngOnInit() {
     this.startOrResumeTimer();
   }
 
   startOrResumeTimer() {
+    /* Because we want to reach 0-100% in the duration of the exercise, we divide the duration by 100. We them multiply it by 1000 to get
+    the milliseconds. That means each step to get from one percentage to the next until it is 100% will take the duration set for the
+    specific exercise.
+     */
+    const step = this.trainingService.getRunningExercise().duration / 100 * 1000;
     this.timer = setInterval(() => {
-      this.progress += 5;
+      this.progress += 1;
       if (this.progress >= 100) {
         clearInterval(this.timer);
       }
-    }, 1000);
+    }, step);
   }
 
   onStop() {
