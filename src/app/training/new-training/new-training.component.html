@@ -2,29 +2,35 @@
 We can set the width of the card using the fxFlex property and assigning a width to the property e.g. fxFlex="400px"
 -->
 <section class="new-training" fxLayout fxLayoutAlign="center">
-  <mat-card fxFlex.xs="100%" fxFlex="400px">
-    <!--
-    We don't need to write fxLayout in <mat-card-title> directive because it will automatically make it a flex row
-    layout by just writing fxLayoutAlign, as shown below.
-    -->
-    <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
-    <mat-card-content fxLayoutAlign="center">
+  <form (ngSubmit)="onStartTraining(f)" #f="ngForm">
+    <mat-card fxFlex.xs="100%" fxFlex="400px">
       <!--
-      The <mat-select> directive must be wrapped in <mat-form-field>. <mat-select> is valid form control.
+      We don't need to write fxLayout in <mat-card-title> directive because it will automatically make it a flex row
+      layout by just writing fxLayoutAlign, as shown below.
       -->
-      <mat-form-field>
-        <mat-select placeholder="Select Exercise">
-          <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
-            {{exercise.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-    <!--
-    <mat-card-actions> is the container where we place buttons at the bottom of the card.
-    -->
-    <mat-card-actions fxLayoutAlign="center">
-      <button type="submit" mat-button (click)="onStartTraining()">Start</button>
-    </mat-card-actions>
-  </mat-card>
+      <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
+      <mat-card-content fxLayoutAlign="center">
+        <!--
+        The <mat-select> directive must be wrapped in <mat-form-field>. <mat-select> is valid form control.
+        -->
+        <mat-form-field>
+          <!--
+          We can place ngForm right on the material directive tags, as shown below. We just have to make sure to wrap
+          our form in a <form></form> tag.
+          -->
+          <mat-select placeholder="Select Exercise" ngModel name="exercise" required>
+            <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
+              {{exercise.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      <!--
+      <mat-card-actions> is the container where we place buttons at the bottom of the card.
+      -->
+      <mat-card-actions fxLayoutAlign="center">
+        <button type="submit" mat-button [disabled]="f.invalid">Start</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </section>
