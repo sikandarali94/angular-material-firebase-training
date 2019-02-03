@@ -1,3 +1,58 @@
-<p>
-  past-trainings works!
-</p>
+<!--
+We wrap an Angular Material table using the <mat-table> tags, as shown below. We connect the table to some data source
+that will be used to populate the data: to do this this we use property binding on dataSource, as shown below.
+-->
+<mat-table [dataSource]="dataSource">
+  <!--
+  We will use <ng-container></ng-container> to group our columns. ng-container is a default Angular component which we
+  can use to group things. We add the matColumnDef (material column definition) directive, as shown below, and provide
+  a clear unique identifier.
+  -->
+  <ng-container matColumnDef="date">
+    <!--
+    To define a column in an Angular Material table, we must provide a header cell, title and a value cell. The value
+    cell is repeated for all the appropriate values in our data source.
+    In out header cell we place the *matHeaderCellDef structural directive. Within the
+    <mat-header-cell></mat-header-cell> tags is where we write the title of the column.
+    -->
+    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+    <!--
+    <mat-cell> is where we populate the values of the column. We then provide the *matCellDef structural directive in
+    which we assign "let element". The assignment of "let element" gives us access to a element property which will be
+    passed to us by a material table component. We can then output the value we get using string interpolation, as
+    shown below. In "element.date", we will know there will be a date property because our data source will later be
+    our Exercise array and each Exercise has a date property. Because we want the value to be displayed as a date type,
+    that is why use the date pipe next to "element.date".
+    -->
+    <mat-cell *matCellDef="let element">{{ element.date | date }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="calories">
+    <mat-header-cell *matHeaderCellDef>Calories</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.calories | number }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.duration | number }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.state }}</mat-cell>
+  </ng-container>
+
+  <!--
+  The syntax of mat-header-row and mat-row is something we should remember or refer back to. Essentially what is
+  happening here is really just that we are rendering the headers (aka table titles) and all the rows for all the values
+  we got. displayedColumns is important; we are connecting the material table to a data source, but with displayed
+  columns, we can control which of our defined columns we actually want to show. This allows us to dynamically change
+  this if we wanted to. We configure the displayedColumns in our component.
+  -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
