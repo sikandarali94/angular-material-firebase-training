@@ -22,7 +22,12 @@ import {
   MatDialogModule,
   /* To unlock the features of an Angular Material table, we import MatTableModule, as shown below.
    */
-  MatTableModule
+  /* MatTableModule does not include sorting, pageanation and filtering.
+   */
+  MatTableModule,
+  /* To get sorting on our material table we import MatSortModule.
+   */
+  MatSortModule
 } from '@angular/material';
 
 @NgModule({
@@ -42,7 +47,8 @@ import {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
   ],
   exports: [
     MatButtonModule,
@@ -60,7 +66,8 @@ import {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class MaterialModule {}

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+/* We must make sure to import MatSort from '@angular/material' before we can use it in our TypeScript file.
+ */
+import {MatTableDataSource, MatSort} from '@angular/material';
 import {Exercise} from '../exercise.model';
 import {TrainingService} from '../training.service';
 
@@ -8,7 +10,7 @@ import {TrainingService} from '../training.service';
   templateUrl: './past-trainings.component.html',
   styleUrls: ['./past-trainings.component.css']
 })
-export class PastTrainingsComponent implements OnInit {
+export class PastTrainingsComponent implements OnInit, AfterViewInit {
   /* The identifiers that we defined for matColumnDef for each column in the template, those identifiers are what we use in displayedColumns
   to show which columns we want to render. This is handy because we can switch the order of the columns by switching the identifiers in
   displayedColumns.
@@ -22,12 +24,27 @@ export class PastTrainingsComponent implements OnInit {
    */
   dataSource = new MatTableDataSource<Exercise>();
 
+  /* We get a reference to our matSort directive on the template using ViewChild and MatSort (which we need to import). We don't get access
+  to the entire table that the matSort directive is sitting on but really just the underlying sorting set up Angular Material infers for us.
+  We can name 'sort' anything we like.
+   */
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private trainingService: TrainingService) {}
 
   ngOnInit() {
     /* dataSource has a data property to which we provide the data we want populated in the table.
      */
     this.dataSource.data = this.trainingService.getCompletedOrCancelledExercises();
+  }
+
+  /* With regards to ViewChild, the template hasn't been rendered yet on the ngOnInit lifecycle hook. That is why we are implementing the
+  ngAfterViewInit lifecycle hook.
+   */
+  ngAfterViewInit() {
+    /* We are linking our data source sort property to the table that has the matSort directive implemented on it.
+     */
+    this.dataSource.sort = this.sort;
   }
 
 }

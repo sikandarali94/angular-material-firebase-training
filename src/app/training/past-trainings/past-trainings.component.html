@@ -2,7 +2,10 @@
 We wrap an Angular Material table using the <mat-table> tags, as shown below. We connect the table to some data source
 that will be used to populate the data: to do this this we use property binding on dataSource, as shown below.
 -->
-<mat-table [dataSource]="dataSource">
+<!--
+To make our table sortable we add the matSort directive.
+-->
+<mat-table [dataSource]="dataSource" matSort>
   <!--
   We will use <ng-container></ng-container> to group our columns. ng-container is a default Angular component which we
   can use to group things. We add the matColumnDef (material column definition) directive, as shown below, and provide
@@ -15,7 +18,11 @@ that will be used to populate the data: to do this this we use property binding 
     In out header cell we place the *matHeaderCellDef structural directive. Within the
     <mat-header-cell></mat-header-cell> tags is where we write the title of the column.
     -->
-    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+    <!--
+    After we have indicated that we want our table to be sortable we then have to decide which columns we want to be
+    sortable. To make a column sortable we add the mat-sort-header component selector to mat-header-cell as shown below.
+    -->
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
     <!--
     <mat-cell> is where we populate the values of the column. We then provide the *matCellDef structural directive in
     which we assign "let element". The assignment of "let element" gives us access to a element property which will be
@@ -27,22 +34,22 @@ that will be used to populate the data: to do this this we use property binding 
     <mat-cell *matCellDef="let element">{{ element.date | date }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="calories">
-    <mat-header-cell *matHeaderCellDef>Calories</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Calories</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.calories | number }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="duration">
-    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.duration | number }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="state">
-    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.state }}</mat-cell>
   </ng-container>
 
