@@ -47,4 +47,13 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  doFilter(filterValue: string) {
+    /* Angular Material concatenates the entire values in a row in a single string. That is why the filter value should be trimmed of white
+    space. The reason we are lower casing our filter value is because Angular Material lower cases the concatenated string of each row. It
+    is within the concatenated string where filter is searching for matches. To change the behaviour of how Angular Material concatenates
+    and lower cases we should refer to the Angular Material documentation.
+     */
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 }

@@ -5,6 +5,15 @@ that will be used to populate the data: to do this this we use property binding 
 <!--
 To make our table sortable we add the matSort directive.
 -->
+<div fxLayoutAlign="center center">
+  <!--
+  Our filter field is just a normal material input field. We want the event fired every time a key has been released after
+  being pressed on the keyboard.
+  -->
+  <mat-form-field fxFlex="40%">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="filter">
+  </mat-form-field>
+</div>
 <mat-table [dataSource]="dataSource" matSort>
   <!--
   We will use <ng-container></ng-container> to group our columns. ng-container is a default Angular component which we
