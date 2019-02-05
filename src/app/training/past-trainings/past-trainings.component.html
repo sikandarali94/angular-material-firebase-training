@@ -87,3 +87,12 @@ it should match. To see how filterPredicate is implemented, please refer to the 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+<!--
+  To create a paginator we use the mat-paginator element, as shown below. pageSize determines how many items should
+  be displayed on a given page. pageSizeOptions presents to the user what steps we want to show them on the paginator,
+  besides the forward and backward button.
+  Paginator is independent of the table and can be used for paginating other things. To see it in depth, please visit
+  the Angular Material documentation.
+ -->
+<mat-paginator [pageSize]="1" [pageSizeOptions]="[5,10,20]"></mat-paginator>

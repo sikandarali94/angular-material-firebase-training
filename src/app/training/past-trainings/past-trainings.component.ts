@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 /* We must make sure to import MatSort from '@angular/material' before we can use it in our TypeScript file.
  */
-import {MatTableDataSource, MatSort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import {Exercise} from '../exercise.model';
 import {TrainingService} from '../training.service';
 
@@ -29,6 +29,10 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
   We can name 'sort' anything we like.
    */
   @ViewChild(MatSort) sort: MatSort;
+  /* We are getting a reference to the paginator using ViewChild and MatPaginator (which we need to import). This is so we can link the
+  paginator to our data source.
+   */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private trainingService: TrainingService) {}
 
@@ -45,6 +49,10 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
     /* We are linking our data source sort property to the table that has the matSort directive implemented on it.
      */
     this.dataSource.sort = this.sort;
+    /* Here we are linking the paginator to our data source. Please note that we are implementing this in the ngAfterViewInit lifecycle
+    hook.
+     */
+    this.dataSource.paginator = this.paginator;
   }
 
   doFilter(filterValue: string) {

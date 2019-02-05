@@ -27,7 +27,11 @@ import {
   MatTableModule,
   /* To get sorting on our material table we import MatSortModule.
    */
-  MatSortModule
+  MatSortModule,
+  /* The paginator for Angular Material has it's own separate module: MatPaginatorModule. We need to import this if we are implementing a
+  paginator.
+   */
+  MatPaginatorModule
 } from '@angular/material';
 
 @NgModule({
@@ -48,7 +52,8 @@ import {
     MatProgressSpinnerModule,
     MatDialogModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
   ],
   exports: [
     MatButtonModule,
@@ -67,7 +72,8 @@ import {
     MatProgressSpinnerModule,
     MatDialogModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule {}
