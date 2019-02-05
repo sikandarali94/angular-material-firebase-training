@@ -5,6 +5,21 @@ that will be used to populate the data: to do this this we use property binding 
 <!--
 To make our table sortable we add the matSort directive.
 -->
+<!--
+Filtering for the data table just works. But why does it work? Why can we enter "bur" and we find "Burpees"? Why can we
+enter "0" and we find all entries with "0.1" in them? Here's how the default filtering algorithm works: It (= Angular
+Material Data Table) concatenates all row values to a single string AND transforms this string to lowercase.
+
+If you row data is: Burpees 0.1 3, the filtering string would be: burpees0.13
+
+If you then enter "Bur", it'll match this with this string and search for any occurrences. That's why we should
+transform our filtering text to lowercase. If you don't want the default behavior, you can define your own filtering
+logic by setting the filterPredicate property instead of the filter property.
+
+The filterPredicate property takes a function as a value which in turn takes two arguments: The data object
+(representing the data of one row) and the filtering string. You can then return true in the function if you find that
+it should match. To see how filterPredicate is implemented, please refer to the Angular Material documentation.
+-->
 <div fxLayoutAlign="center center">
   <!--
   Our filter field is just a normal material input field. We want the event fired every time a key has been released after
