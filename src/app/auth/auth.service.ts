@@ -1,3 +1,8 @@
+/* There are three ways to connect to Firebase using Angular. They are: REST API (using GET, POST, PUT and so forth of the http client of
+Angular), SDK (this is provided by Firebase and can be used in any JS project) and Angularfire (A third party package which provides us a
+lot of features that the SDK provided but in a manner that embraces observables and nicely integrates into Angular. We can only use this
+in Angular). For this project, we will use Angularfire.
+ */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
