@@ -3,6 +3,12 @@ Angular), SDK (this is provided by Firebase and can be used in any JS project) a
 lot of features that the SDK provided but in a manner that embraces observables and nicely integrates into Angular. We can only use this
 in Angular). For this project, we will use Angularfire.
  */
+/* There are three basic terms we need to know in order to understand how Firestore stores its data: collections (these are like folders),
+documents (comparable to documents or files) and data (this is the dat inside the document). To know in detail about Firestore, we should
+look at the docs for it.
+Documents are stored within a collection. We can have collections nested, however, we can't have a collection within a collection but only
+a collection within a document. These nested collections are called sub-collections.
+ */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
