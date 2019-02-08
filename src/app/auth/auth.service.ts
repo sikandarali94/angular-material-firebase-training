@@ -9,6 +9,9 @@ look at the docs for it.
 Documents are stored within a collection. We can have collections nested, however, we can't have a collection within a collection but only
 a collection within a document. These nested collections are called sub-collections.
  */
+/* Angularfire2 is a dependancy of firebase and that is why we have to install both. To install both we write this in the console:
+"npm install angularfire2 firebase --save"
+ */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 

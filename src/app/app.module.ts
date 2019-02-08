@@ -1,6 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+/* We must import the AngularFireModule before we use it in our app, as shown below.
+ */
+import { AngularFireModule } from 'angularfire2';
+/* Because our Firebase database uses Firestore implementation, we should only import that package which exclusively handles Firestore. That
+is why we are importing AngularFirestoreModule, as shown below.
+ */
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +28,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import {StopTrainingComponent} from './training/current-training/stop-training.component';
 import {AuthService} from './auth/auth.service';
 import {TrainingService} from './training/training.service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -43,7 +51,12 @@ import {TrainingService} from './training/training.service';
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    /* We have to execute the initializeApp() method to initialize Angularfire2. We pass into the initialize app our configuration under
+    the firebase key within our environment.ts file.
+     */
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],

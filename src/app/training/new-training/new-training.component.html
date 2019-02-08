@@ -19,7 +19,11 @@ We can set the width of the card using the fxFlex property and assigning a width
           our form in a <form></form> tag.
           -->
           <mat-select placeholder="Select Exercise" ngModel name="exercise" required>
-            <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
+            <!--
+            Because we won't get the data back synchronously, we assign the async pipe, which automatically subscribes
+            to an observable and extracts the data that observable returns.
+            -->
+            <mat-option *ngFor="let exercise of availableExercises | async" [value]="exercise.name">
               {{exercise.name}}
             </mat-option>
           </mat-select>

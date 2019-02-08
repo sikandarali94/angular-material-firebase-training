@@ -2,8 +2,19 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+/* In our environments.ts file, we place all our firebase setup that we can get from the Firebase console into the file under the firebase
+key as shown below. This is show we connect to our Firebase database.
+ */
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDlB_NejQ1YplSRxuHH0ckQy0RK9QqI1Gk',
+    authDomain: 'ng-fitness-tracker-9f70e.firebaseapp.com',
+    databaseURL: 'https://ng-fitness-tracker-9f70e.firebaseio.com',
+    projectId: 'ng-fitness-tracker-9f70e',
+    storageBucket: 'ng-fitness-tracker-9f70e.appspot.com',
+    messagingSenderId: '942721051605'
+  }
 };
 
 /*
