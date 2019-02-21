@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrainingService} from '../training.service';
 import {Exercise} from '../exercise.model';
 import {NgForm} from '@angular/forms';
-/* To use AngularFirestore package within our Typescript file, we first need to import it from:'angularfire2/firestore'.
- */
-import {AngularFirestore} from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import {Subscription} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -13,13 +10,14 @@ import { map } from 'rxjs/operators';
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.css']
 })
-export class NewTrainingComponent implements OnInit {
+export class NewTrainingComponent implements OnInit, OnDestroy {
   /* We might think that the generic type Observable that we get should be Exercise[]. However, our model has an id property. This property
   is not part of the data we get returned from Firestore.
    */
-  availableExercises: Observable<any>;
+  availableExercises: Exercise[];
+  exerciseSubscription: Subscription;
 
-  constructor(private trainingService: TrainingService, private db: AngularFirestore) {}
+  constructor(private trainingService: TrainingService) {}
 
   ngOnInit() {
     /* The collection method allows us to reach a specific collection in our Firestore database.
@@ -32,19 +30,12 @@ export class NewTrainingComponent implements OnInit {
     document we will have to execute an extra method to get the data that is inside the document. In summary: the snapshotChanges() allows
     us to get the metadata of our documents in the Firebase database.
      */
-    this.availableExercises = this.db.collection('availableExercises').snapshotChanges().pipe(
-      map(
-      docArray => {
-        /* The map method below is not the rxjs operator.
-         */
-        return docArray.map(doc => {
-          return {
-            id: doc.payload.doc.id,
-            ...doc.payload.doc.data()
-          };
-        });
+    this.trainingService.fetchAvailableExercises();
+    this.exerciseSubscription = this.trainingService.changed.subscribe(
+      exercises => {
+        this.availableExercises = exercises;
       }
-    ))
+    );
     // .subscribe(
     //   result => {
     //     // /* Here we are looping through the array of objects and executing the special data() method to extract the value from each
@@ -57,7 +48,10 @@ export class NewTrainingComponent implements OnInit {
     //     console.log(result);
     //   }
     // )
-    ;
+  }
+
+  ngOnDestroy() {
+    this.exerciseSubscription.unsubscribe();
   }
 
   onStartTraining(form: NgForm) {
