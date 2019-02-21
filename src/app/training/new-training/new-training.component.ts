@@ -6,6 +6,7 @@ import {NgForm} from '@angular/forms';
  */
 import {AngularFirestore} from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-training',
@@ -25,7 +26,38 @@ export class NewTrainingComponent implements OnInit {
     The valueChanges() method will give us an observable and that is why are subscribing to it. This method is a listener that strips out
     all the metadata like the ID of each document within a collection and only gives us the values of each document.
      */
-    this.availableExercises = this.db.collection('availableExercises').valueChanges();
+    /* The downside to valueChanges() is that it only gives us the value of our documents. However, when we use snapshotChanges() and we
+    subscribe to the observable it returns, we get an array of objects that for example tells us what type of change occurred in the
+    Firebase database; we also get a payload property in each object where we can access the id of the document. To get the value of the
+    document we will have to execute an extra method to get the data that is inside the document. In summary: the snapshotChanges() allows
+    us to get the metadata of our documents in the Firebase database.
+     */
+    this.availableExercises = this.db.collection('availableExercises').snapshotChanges().pipe(
+      map(
+      docArray => {
+        /* The map method below is not the rxjs operator.
+         */
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            ...doc.payload.doc.data()
+          };
+        });
+      }
+    ))
+    // .subscribe(
+    //   result => {
+    //     // /* Here we are looping through the array of objects and executing the special data() method to extract the value from each
+    //     // document. With snapshotChanges() we got the best of both worlds: we can extract the metadata of our documents as well as their
+    //     // value.
+    //     //  */
+    //     // for (const res of result) {
+    //     //   console.log(res.payload.doc.data());
+    //     // }
+    //     console.log(result);
+    //   }
+    // )
+    ;
   }
 
   onStartTraining(form: NgForm) {

@@ -23,7 +23,7 @@ We can set the width of the card using the fxFlex property and assigning a width
             Because we won't get the data back synchronously, we assign the async pipe, which automatically subscribes
             to an observable and extracts the data that observable returns.
             -->
-            <mat-option *ngFor="let exercise of availableExercises | async" [value]="exercise.name">
+            <mat-option *ngFor="let exercise of availableExercises | async" [value]="exercise.id">
               {{exercise.name}}
             </mat-option>
           </mat-select>
