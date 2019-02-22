@@ -51,7 +51,7 @@ export class TrainingService {
   }
 
   completeExercise() {
-    this.exercises.push({
+    this.addDataToDatabase({
       ...this.runningExercise,
       date: new Date(),
       state: 'completed'
@@ -61,7 +61,7 @@ export class TrainingService {
   }
 
   cancelExercise(progress: number) {
-    this.exercises.push({
+    this.addDataToDatabase({
       ...this.runningExercise,
       duration: this.runningExercise.duration * (progress / 100),
       calories: this.runningExercise.calories * (progress / 100),
@@ -78,5 +78,13 @@ export class TrainingService {
 
   getCompletedOrCancelledExercises() {
     return this.exercises.slice();
+  }
+
+  private addDataToDatabase(exercise: Exercise) {
+    /* If we connect to a collection in our database that does not exist yet, the collection is automatically created for us. We are
+    using the add() function to add a document that holds the finished exercise onto the 'finishedExercises' collection in the Firebase
+    database.
+     */
+    this.db.collection('finishedExercises').add(exercise);
   }
 }
