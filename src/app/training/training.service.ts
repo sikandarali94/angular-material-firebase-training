@@ -15,6 +15,10 @@ export class TrainingService {
 
   constructor(private db: AngularFirestore) {}
 
+  /* It is important to consider that we call fetchAvailableExercises() whenever the new-training component gets created. This would be
+  the case whenever we navigate to it. However, when we navigate from it we never tear down the existing subscription which gets initialized
+  in fetchAvailableExercises().
+   */
   fetchAvailableExercises() {
     this.db.collection('availableExercises').snapshotChanges().pipe(
       map(
@@ -30,6 +34,10 @@ export class TrainingService {
         }
       ))
       .subscribe((exercises: Exercise[]) => {
+        /* The subscription is managed for us by Angularfire because it does not create multiple subscription of the same subscription
+        whenever the new-training component is navigated from and back to again. It keeps the subscription singular even though the method
+        that it is in is called multiple times.
+         */
         this.availableExercises = exercises;
         this.changed.next([...this.availableExercises]);
       });
