@@ -8,6 +8,10 @@ import { AngularFireModule } from 'angularfire2';
 is why we are importing AngularFirestoreModule, as shown below.
  */
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+/* For authentication with Angular Firebase using angularfire we first have to import the AngularFireAuthModule into our app, as shown
+below.
+ */
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -56,7 +60,8 @@ import { environment } from '../environments/environment';
     the firebase key within our environment.ts file.
      */
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],
