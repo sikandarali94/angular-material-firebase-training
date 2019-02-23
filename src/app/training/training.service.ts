@@ -44,6 +44,14 @@ export class TrainingService {
   }
 
   startExercise(selectId: string) {
+    /* doc() method allows us to choose a specific document by passing the path of the document. This is handy especially if we don't want
+    to interact or listen to an entire collection of documents but rather just a single one. update() method is used to add data to the
+    existing data on the document rather than completely replace the data on the document.
+
+    To get the complete list of methods to interact with documents on Firebase, we should visit the official documentation at:
+    https://github.com/angular/angularfire2.
+     */
+    // this.db.doc('availableExercises/' + selectId).update({lastSelected: new Date()});
     this.runningExercise = this.availableExercises.find(ex => ex.id === selectId);
     /* We are emitting a copy of the runningExercise object using the spread operator.
      */
