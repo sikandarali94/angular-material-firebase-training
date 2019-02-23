@@ -1,16 +1,17 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 /* We must make sure to import MatSort from '@angular/material' before we can use it in our TypeScript file.
  */
 import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import {Exercise} from '../exercise.model';
 import {TrainingService} from '../training.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-past-trainings',
   templateUrl: './past-trainings.component.html',
   styleUrls: ['./past-trainings.component.css']
 })
-export class PastTrainingsComponent implements OnInit, AfterViewInit {
+export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy {
   /* The identifiers that we defined for matColumnDef for each column in the template, those identifiers are what we use in displayedColumns
   to show which columns we want to render. This is handy because we can switch the order of the columns by switching the identifiers in
   displayedColumns.
@@ -23,6 +24,7 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
   just provide Exercise. MatTableDataSource will know it should be Exercise[].
    */
   dataSource = new MatTableDataSource<Exercise>();
+  private exChangedSubscription: Subscription;
 
   /* We get a reference to our matSort directive on the template using ViewChild and MatSort (which we need to import). We don't get access
   to the entire table that the matSort directive is sitting on but really just the underlying sorting set up Angular Material infers for us.
@@ -37,9 +39,12 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
   constructor(private trainingService: TrainingService) {}
 
   ngOnInit() {
+    this.exChangedSubscription = this.trainingService.finishedExercisesChanged.subscribe((exercises: Exercise[]) => {
+      this.dataSource.data = exercises;
+    });
     /* dataSource has a data property to which we provide the data we want populated in the table.
      */
-    this.dataSource.data = this.trainingService.getCompletedOrCancelledExercises();
+    this.trainingService.fetchCompletedOrCancelledExercises();
   }
 
   /* With regards to ViewChild, the template hasn't been rendered yet on the ngOnInit lifecycle hook. That is why we are implementing the
@@ -62,6 +67,10 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit {
     and lower cases we should refer to the Angular Material documentation.
      */
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  ngOnDestroy() {
+    this.exChangedSubscription.unsubscribe();
   }
 
 }

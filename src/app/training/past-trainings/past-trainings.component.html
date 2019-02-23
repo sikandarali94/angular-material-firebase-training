@@ -55,7 +55,7 @@ it should match. To see how filterPredicate is implemented, please refer to the 
     our Exercise array and each Exercise has a date property. Because we want the value to be displayed as a date type,
     that is why use the date pipe next to "element.date".
     -->
-    <mat-cell *matCellDef="let element">{{ element.date | date }}</mat-cell>
+    <mat-cell *matCellDef="let element">{{ element.date.seconds * 1000 | date:'MM-dd-yyyy' }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
