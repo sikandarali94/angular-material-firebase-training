@@ -27,7 +27,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
-  private user: User;
+  private isAuthenticated = false;
 
   constructor(private router: Router, private afAuth: AngularFireAuth) {}
 
@@ -42,7 +42,6 @@ export class AuthService {
       authData.email,
       authData.password
     ).then(result => {
-      console.log(result);
       this.authSuccessfully();
     })
     .catch(error => {
@@ -65,29 +64,22 @@ export class AuthService {
       .catch(error => {
         console.log(error);
       });
-    this.authSuccessfully();
   }
 
   logout() {
-    this.user = null;
     this.authChange.next(false);
     this.router.navigate(['/login']);
-  }
-
-  getUser() {
-    /* We can use the spread operator to create a new copy of the object rather than returning a reference to the user object in this
-    service.
-    */
-    return { ...this.user };
+    this.isAuthenticated = false;
   }
 
   isAuth() {
-    return this.user != null;
+    return this.isAuthenticated;
   }
 
   /* We can even make a function private.
    */
   private authSuccessfully() {
+    this.isAuthenticated = true;
     this.authChange.next(true);
     this.router.navigate(['/training']);
   }
