@@ -1,3 +1,29 @@
+/* To use Web Token authentication, instead of having this harmful security rule on Firebase console:
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write;
+    }
+  }
+}
+
+We should instead change the rule to:
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+Essentially we are saying in the above security code is that allow the data on the database to be read and written to if the incoming
+request has an authenticated user (that is basically the information stored in the request.auth property).
+The receiving of the web token from the server, the storing of the web token on the client (usually it is stored on localStorage), and
+the sending of the web token to the server for authentication is all handled automatically with Angularfire when we use the authentication
+methods it provides us.
+ */
 /* Angularfire helps us with authentication as well.
  */
 /* There are three ways to connect to Firebase using Angular. They are: REST API (using GET, POST, PUT and so forth of the http client of
@@ -16,8 +42,6 @@ a collection within a document. These nested collections are called sub-collecti
  */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-
-import {User} from './user.model';
 import {AuthData} from './auth-data.model';
 import {Router} from '@angular/router';
 /* We have to import AngularFireAuth from 'angularfire2/auth' before we can use it in our Typescript file.
@@ -67,6 +91,9 @@ export class AuthService {
   }
 
   logout() {
+    /* The signOut() method provided by Angularfire will automatically get rid of the web token on the client side.
+     */
+    this.afAuth.auth.signOut();
     this.authChange.next(false);
     this.router.navigate(['/login']);
     this.isAuthenticated = false;
