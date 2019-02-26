@@ -1,8 +1,9 @@
 import {Exercise} from './exercise.model';
 import {Injectable} from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import {Subject} from 'rxjs/Subject';
 import {map} from 'rxjs/operators';
 import {AngularFirestore} from 'angularfire2/firestore';
+import {Subscription} from 'rxjs';
 
 @Injectable()
 export class TrainingService {
@@ -12,6 +13,9 @@ export class TrainingService {
 
   private availableExercises: Exercise[] = [];
   private runningExercise: Exercise;
+  /* Because we have multiple subscriptions, it is suitable to place all those subscriptions within an array, as shown below.
+   */
+  private fbSubs: Subscription[] = [];
 
   constructor(private db: AngularFirestore) {}
 
@@ -20,7 +24,13 @@ export class TrainingService {
   in fetchAvailableExercises().
    */
   fetchAvailableExercises() {
-    this.db.collection('availableExercises').snapshotChanges().pipe(
+    /* A big issue with our app right now is that when we log out of our app we get an authentication error. This is because we have live
+    subscriptions still running when we log out of the app; and of course, the subscriptions to the Firebase database cannot be maintained
+    because we have logged out from the app and thus we are not authenticated to maintain the connection with Firebase.
+     */
+    /* Even though we are pushing the subscriptions in a Subscription array, those subscriptions are still being subscribed to.
+     */
+    this.fbSubs.push(this.db.collection('availableExercises').snapshotChanges().pipe(
       map(
         docArray => {
           /* The map method below is not the rxjs operator.
@@ -40,7 +50,16 @@ export class TrainingService {
          */
         this.availableExercises = exercises;
         this.changed.next([...this.availableExercises]);
-      });
+      }));
+      // , error => {
+      //   // console.log(error);
+      //   /* If we handle error in our subscription, as shown here, then we don't get the error on the JS console because it is being
+      //   handled. Now this seems like a bad solution because we are just hiding the errors from the console rather than actually
+      //   fixing them, however, it is okay. But there is a problem here through: if we got some other error and we want to show
+      //   it to the user those errors are also hidden because of the empty error handling here. An alternative solution will be to store
+      //   our subscriptions as we have implemented in this file.
+      //    */
+      // });
   }
 
   startExercise(selectId: string) {
@@ -85,9 +104,16 @@ export class TrainingService {
   }
 
   fetchCompletedOrCancelledExercises() {
-    this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
+    this.fbSubs.push(this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
       this.finishedExercisesChanged.next(exercises);
-    });
+    }));
+  }
+
+  cancelSubscriptions() {
+    /* We can now just call this method to unsubscribe the subscriptions to the Firebase database from the auth service when we log out from
+    the app.
+     */
+    this.fbSubs.forEach(sub => sub.unsubscribe());
   }
 
   private addDataToDatabase(exercise: Exercise) {

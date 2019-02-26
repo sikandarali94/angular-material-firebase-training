@@ -47,13 +47,14 @@ import {Router} from '@angular/router';
 /* We have to import AngularFireAuth from 'angularfire2/auth' before we can use it in our Typescript file.
  */
 import { AngularFireAuth } from 'angularfire2/auth';
+import {TrainingService} from '../training/training.service';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private isAuthenticated = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth) {}
+  constructor(private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) {}
 
   registerUser(authData: AuthData) {
     /* Within the AngularFireAuth object, we have within the auth object a method called createUserWithEmailAndPassword() to create a user
@@ -91,6 +92,7 @@ export class AuthService {
   }
 
   logout() {
+    this.trainingService.cancelSubscriptions();
     /* The signOut() method provided by Angularfire will automatically get rid of the web token on the client side.
      */
     this.afAuth.auth.signOut();
