@@ -56,6 +56,30 @@ export class AuthService {
 
   constructor(private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) {}
 
+  /* We want to call initAuthListener() when the app starts so that is why we call it from app.component.ts.
+   */
+  initAuthListener() {
+    /* Angularfire provides an observable which we can ust to listen to any authentication changes rather than us using a boolean to
+    indicate authentication changes. That observable is called authState and we have to subscribe to it as we have done below. authState
+    emits an event whenever the authentication status changes.
+     */
+    this.afAuth.authState.subscribe(user => {
+      /* We receive a user object. The user object is null if we are unauthenticated or the currently logged in user if we are
+      authenticated.
+       */
+      if (user) {
+        this.isAuthenticated = true;
+        this.authChange.next(true);
+        this.router.navigate(['/training']);
+      } else {
+        this.trainingService.cancelSubscriptions();
+        this.authChange.next(false);
+        this.router.navigate(['/login']);
+        this.isAuthenticated = false;
+      }
+    });
+  }
+
   registerUser(authData: AuthData) {
     /* Within the AngularFireAuth object, we have within the auth object a method called createUserWithEmailAndPassword() to create a user
     with email and password on Firebase. The two arguments we pass to this method is email and password. The method returns a promise where
@@ -67,7 +91,6 @@ export class AuthService {
       authData.email,
       authData.password
     ).then(result => {
-      this.authSuccessfully();
     })
     .catch(error => {
       console.log(error);
@@ -83,8 +106,6 @@ export class AuthService {
       authData.email,
       authData.password
     ).then(result => {
-      console.log(result);
-      this.authSuccessfully();
     })
       .catch(error => {
         console.log(error);
@@ -92,24 +113,12 @@ export class AuthService {
   }
 
   logout() {
-    this.trainingService.cancelSubscriptions();
     /* The signOut() method provided by Angularfire will automatically get rid of the web token on the client side.
      */
     this.afAuth.auth.signOut();
-    this.authChange.next(false);
-    this.router.navigate(['/login']);
-    this.isAuthenticated = false;
   }
 
   isAuth() {
     return this.isAuthenticated;
-  }
-
-  /* We can even make a function private.
-   */
-  private authSuccessfully() {
-    this.isAuthenticated = true;
-    this.authChange.next(true);
-    this.router.navigate(['/training']);
   }
 }
