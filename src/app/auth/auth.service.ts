@@ -49,6 +49,7 @@ import {Router} from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {TrainingService} from '../training/training.service';
 import {MatSnackBar} from '@angular/material';
+import {UiService} from '../shared/ui.service';
 
 @Injectable()
 export class AuthService {
@@ -58,7 +59,8 @@ export class AuthService {
   constructor(private router: Router,
               private afAuth: AngularFireAuth,
               private trainingService: TrainingService,
-              private snackBar: MatSnackBar
+              private snackBar: MatSnackBar,
+              private uiService: UiService
   ) {}
 
   /* We want to call initAuthListener() when the app starts so that is why we call it from app.component.ts.
@@ -86,6 +88,7 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     /* Within the AngularFireAuth object, we have within the auth object a method called createUserWithEmailAndPassword() to create a user
     with email and password on Firebase. The two arguments we pass to this method is email and password. The method returns a promise where
     we can listen to the success case and of course also listen to the error case.
@@ -96,8 +99,10 @@ export class AuthService {
       authData.email,
       authData.password
     ).then(result => {
+      this.uiService.loadingStateChanged.next(false);
     })
     .catch(error => {
+      this.uiService.loadingStateChanged.next(false);
       /* Instead of console logging the error we can reach out to the Angular Material snackbar and display the message on it, as shown
       below.
       The error object we are getting back from Firebase has a error.message property which we can use to display the proper error on the
@@ -113,6 +118,7 @@ export class AuthService {
   }
 
   login(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     /* Within the AngularFireAuth object, we have within the auth object a method called signInWithEmailAndPassword() that authenticates
     the login information of email and password against the users Firebase has (where the email and password of each every user is stored).
     It takes arguments of email and password, as shown below and returns a promise.
@@ -121,8 +127,10 @@ export class AuthService {
       authData.email,
       authData.password
     ).then(result => {
+      this.uiService.loadingStateChanged.next(false);
     })
       .catch(error => {
+        this.uiService.loadingStateChanged.next(false);
         this.snackBar.open(error.message, null, {
           duration: 3000
         });

@@ -1,18 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
+import {Subscription} from 'rxjs';
 import {AuthService} from '../auth.service';
+import {UiService} from '../../shared/ui.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   maxDate;
+  isLoading = false;
+  private loadingSubs: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private uiService: UiService) { }
 
   ngOnInit() {
+    this.loadingSubs = this.uiService.loadingStateChanged.subscribe(
+      isLoading => {
+        this.isLoading = isLoading;
+      }
+    );
     this.maxDate = new Date();
     /* The birth date should be at least 18 years old from the current year.
      */
@@ -24,6 +33,10 @@ export class SignupComponent implements OnInit {
       email: form.value.email,
       password: form.value.password
     });
+  }
+
+  ngOnDestroy() {
+    this.loadingSubs.unsubscribe();
   }
 
 }

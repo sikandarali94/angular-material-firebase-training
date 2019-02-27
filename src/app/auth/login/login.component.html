@@ -18,5 +18,10 @@
       placeholder="Password">
     <mat-error *ngIf="loginForm.get('password').errors && loginForm.get('password').errors['required']">Password is required</mat-error>
   </mat-form-field>
-  <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Submit</button>
+  <button *ngIf="!isLoading" type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Submit</button>
+  <!--
+  <mat-spinner></mat-spinner> is used to show an indeterminate spinner and is an alias of:
+  <mat-progress-spinner mode="indeterminate">
+  -->
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 </form>
