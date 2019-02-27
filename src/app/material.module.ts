@@ -31,7 +31,11 @@ import {
   /* The paginator for Angular Material has it's own separate module: MatPaginatorModule. We need to import this if we are implementing a
   paginator.
    */
-  MatPaginatorModule
+  MatPaginatorModule,
+  /* We are using a snackbar from Angular Material to display error messages on the form of the app (it appears at the bottom of the page).
+  First, we need to import the MatSnackBarModule before we can implement it in our code.
+   */
+  MatSnackBarModule
 } from '@angular/material';
 
 @NgModule({
@@ -53,7 +57,8 @@ import {
     MatDialogModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule
   ],
   exports: [
     MatButtonModule,
@@ -73,7 +78,8 @@ import {
     MatDialogModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule {}

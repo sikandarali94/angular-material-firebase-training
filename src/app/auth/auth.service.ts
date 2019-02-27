@@ -48,13 +48,18 @@ import {Router} from '@angular/router';
  */
 import { AngularFireAuth } from 'angularfire2/auth';
 import {TrainingService} from '../training/training.service';
+import {MatSnackBar} from '@angular/material';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private isAuthenticated = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) {}
+  constructor(private router: Router,
+              private afAuth: AngularFireAuth,
+              private trainingService: TrainingService,
+              private snackBar: MatSnackBar
+  ) {}
 
   /* We want to call initAuthListener() when the app starts so that is why we call it from app.component.ts.
    */
@@ -93,7 +98,17 @@ export class AuthService {
     ).then(result => {
     })
     .catch(error => {
-      console.log(error);
+      /* Instead of console logging the error we can reach out to the Angular Material snackbar and display the message on it, as shown
+      below.
+      The error object we are getting back from Firebase has a error.message property which we can use to display the proper error on the
+      snackbar.
+      In the open() method, the first argument is the message, the second argument is a potential action like a button we can click to
+      dismiss the snackbar (however, we don't want to set an action and thus we just pass null to the second argument), and the third
+      argument is an object we pass to configure the snackbar (like duration, which sets how long the snackbar should be shown).
+       */
+      this.snackBar.open(error.message, null, {
+        duration: 3000
+      });
     });
   }
 
@@ -108,7 +123,9 @@ export class AuthService {
     ).then(result => {
     })
       .catch(error => {
-        console.log(error);
+        this.snackBar.open(error.message, null, {
+          duration: 3000
+        });
       });
   }
 
