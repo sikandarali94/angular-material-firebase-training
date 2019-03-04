@@ -13,7 +13,7 @@ We can set the width of the card using the fxFlex property and assigning a width
         <!--
         The <mat-select> directive must be wrapped in <mat-form-field>. <mat-select> is valid form control.
         -->
-        <mat-form-field>
+        <mat-form-field *ngIf="exercisesLoaded">
           <!--
           We can place ngForm right on the material directive tags, as shown below. We just have to make sure to wrap
           our form in a <form></form> tag.
@@ -28,12 +28,13 @@ We can set the width of the card using the fxFlex property and assigning a width
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-spinner *ngIf="!exercisesLoaded"></mat-spinner>
       </mat-card-content>
       <!--
       <mat-card-actions> is the container where we place buttons at the bottom of the card.
       -->
       <mat-card-actions fxLayoutAlign="center">
-        <button type="submit" mat-button [disabled]="f.invalid">Start</button>
+        <button *ngIf="exercisesLoaded" type="submit" mat-button [disabled]="f.invalid">Start</button>
       </mat-card-actions>
     </mat-card>
   </form>

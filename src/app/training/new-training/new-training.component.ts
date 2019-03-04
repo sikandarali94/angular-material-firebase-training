@@ -3,7 +3,6 @@ import {TrainingService} from '../training.service';
 import {Exercise} from '../exercise.model';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-training',
@@ -16,6 +15,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
    */
   availableExercises: Exercise[];
   exerciseSubscription: Subscription;
+  exercisesLoaded = false;
 
   constructor(private trainingService: TrainingService) {}
 
@@ -34,6 +34,9 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.exerciseSubscription = this.trainingService.changed.subscribe(
       exercises => {
         this.availableExercises = exercises;
+        if (this.availableExercises.length !== 0) {
+          this.exercisesLoaded = true;
+        }
       }
     );
     // .subscribe(

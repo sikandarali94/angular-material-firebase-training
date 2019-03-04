@@ -48,7 +48,6 @@ import {Router} from '@angular/router';
  */
 import { AngularFireAuth } from 'angularfire2/auth';
 import {TrainingService} from '../training/training.service';
-import {MatSnackBar} from '@angular/material';
 import {UiService} from '../shared/ui.service';
 
 @Injectable()
@@ -59,7 +58,6 @@ export class AuthService {
   constructor(private router: Router,
               private afAuth: AngularFireAuth,
               private trainingService: TrainingService,
-              private snackBar: MatSnackBar,
               private uiService: UiService
   ) {}
 
@@ -111,9 +109,11 @@ export class AuthService {
       dismiss the snackbar (however, we don't want to set an action and thus we just pass null to the second argument), and the third
       argument is an object we pass to configure the snackbar (like duration, which sets how long the snackbar should be shown).
        */
-      this.snackBar.open(error.message, null, {
-        duration: 3000
-      });
+      /* We might require the snackbar to be used in other parts of the app that do not use auth service. So it is a good idea to have it
+      in the ui service because it is a ui element. Therefore we place the snackbar centrally in the ui service and call the snackbar from
+      the auth service, as shown below.
+       */
+      this.uiService.showSnackbar(error.message, null, 3000);
     });
   }
 
@@ -131,9 +131,7 @@ export class AuthService {
     })
       .catch(error => {
         this.uiService.loadingStateChanged.next(false);
-        this.snackBar.open(error.message, null, {
-          duration: 3000
-        });
+        this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 
